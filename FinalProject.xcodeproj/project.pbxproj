@@ -3,12 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		8CE7323073215EBDF3EE6120 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0BDD92D9C301945ADBA6895 /* Pods_FinalProject.framework */; };
-		FF927233238C99EE001B9119 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF927232238C99EE001B9119 /* GoogleService-Info.plist */; };
+		FF4C6A65238F4297005FB6B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF4C6A64238F4297005FB6B6 /* GoogleService-Info.plist */; };
+		FF4C6A67238F4923005FB6B6 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4C6A66238F4923005FB6B6 /* EntryViewController.swift */; };
+		FFDAF67523943503003BE629 /* AddExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDAF67423943503003BE629 /* AddExerciseViewController.swift */; };
 		FFDD151C238B8B8C004717D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD151B238B8B8C004717D9 /* AppDelegate.swift */; };
 		FFDD151E238B8B8C004717D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD151D238B8B8C004717D9 /* SceneDelegate.swift */; };
 		FFDD1523238B8B8C004717D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFDD1521238B8B8C004717D9 /* Main.storyboard */; };
@@ -22,7 +24,9 @@
 		11CA7FF35C31222A89738C66 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
 		5A4D63378FCF51BF82B9DF09 /* Pods-FinalProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.debug.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.debug.xcconfig"; sourceTree = "<group>"; };
 		F0BDD92D9C301945ADBA6895 /* Pods_FinalProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF927232238C99EE001B9119 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FF4C6A64238F4297005FB6B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FF4C6A66238F4923005FB6B6 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
+		FFDAF67423943503003BE629 /* AddExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewController.swift; sourceTree = "<group>"; };
 		FFDD1518238B8B8C004717D9 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFDD151B238B8B8C004717D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFDD151D238B8B8C004717D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +56,6 @@
 				5A4D63378FCF51BF82B9DF09 /* Pods-FinalProject.debug.xcconfig */,
 				11CA7FF35C31222A89738C66 /* Pods-FinalProject.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -88,12 +91,14 @@
 				FFDD151B238B8B8C004717D9 /* AppDelegate.swift */,
 				FFDD151D238B8B8C004717D9 /* SceneDelegate.swift */,
 				FFDD1521238B8B8C004717D9 /* Main.storyboard */,
+				FFDAF67423943503003BE629 /* AddExerciseViewController.swift */,
 				FFDD1531238B92DF004717D9 /* ExerciseDetailsTableViewController.swift */,
+				FF4C6A66238F4923005FB6B6 /* EntryViewController.swift */,
 				FFDD152F238B8C5E004717D9 /* ExerciseTableViewController.swift */,
 				FFDD1524238B8B8F004717D9 /* Assets.xcassets */,
 				FFDD1526238B8B8F004717D9 /* LaunchScreen.storyboard */,
 				FFDD1529238B8B8F004717D9 /* Info.plist */,
-				FF927232238C99EE001B9119 /* GoogleService-Info.plist */,
+				FF4C6A64238F4297005FB6B6 /* GoogleService-Info.plist */,
 			);
 			path = FinalProject;
 			sourceTree = "<group>";
@@ -159,7 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFDD1528238B8B8F004717D9 /* LaunchScreen.storyboard in Resources */,
-				FF927233238C99EE001B9119 /* GoogleService-Info.plist in Resources */,
+				FF4C6A65238F4297005FB6B6 /* GoogleService-Info.plist in Resources */,
 				FFDD1525238B8B8F004717D9 /* Assets.xcassets in Resources */,
 				FFDD1523238B8B8C004717D9 /* Main.storyboard in Resources */,
 			);
@@ -214,7 +219,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFDAF67523943503003BE629 /* AddExerciseViewController.swift in Sources */,
 				FFDD1532238B92DF004717D9 /* ExerciseDetailsTableViewController.swift in Sources */,
+				FF4C6A67238F4923005FB6B6 /* EntryViewController.swift in Sources */,
 				FFDD1530238B8C5E004717D9 /* ExerciseTableViewController.swift in Sources */,
 				FFDD151C238B8B8C004717D9 /* AppDelegate.swift in Sources */,
 				FFDD151E238B8B8C004717D9 /* SceneDelegate.swift in Sources */,

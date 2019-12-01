@@ -31,6 +31,12 @@ class ExerciseDetailsTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
+    
+    @IBAction func addExerciseEntry(_ sender: UIBarButtonItem) {
+        print("add button pressed")
+        //addNewExercise(title: "My New Exercise")
+        performSegue(withIdentifier: "Add Exercise Entry", sender: sender)
+    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

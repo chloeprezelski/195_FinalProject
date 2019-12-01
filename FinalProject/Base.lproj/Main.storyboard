@@ -34,32 +34,67 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="veJ-eM-NUS">
                             <connections>
                                 <action selector="addButtonPressed:" destination="Ke6-Gp-1Wq" id="zLU-0k-BAV"/>
-                                <segue destination="5ck-xb-akU" kind="presentation" identifier="Add Exercise" id="3JJ-Ba-gR1"/>
+                                <segue destination="uII-VO-GhH" kind="presentation" identifier="Add Exercise" id="3JJ-Ba-gR1"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="Gtj-MO-gI0" kind="show" identifier="&quot;Show Details&quot;" id="XJh-qd-ygn"/>
+                        <segue destination="Gtj-MO-gI0" kind="show" identifier="Show Details" id="XJh-qd-ygn"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oa8-cr-d5z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="480" y="198"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Exercise View Controller-->
         <scene sceneID="jTD-Je-CaX">
             <objects>
-                <viewController id="5ck-xb-akU" sceneMemberID="viewController">
+                <viewController id="5ck-xb-akU" customClass="AddExerciseViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RsU-oF-2S1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Exercise Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hDW-we-5YD">
+                                <rect key="frame" x="20" y="71" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ht6-Pt-pTI">
+                                <rect key="frame" x="20" y="135" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="fOg-Xg-7hy" firstAttribute="trailing" secondItem="Ht6-Pt-pTI" secondAttribute="trailing" constant="20" id="OwA-T3-wAK"/>
+                            <constraint firstItem="fOg-Xg-7hy" firstAttribute="trailing" secondItem="hDW-we-5YD" secondAttribute="trailing" constant="20" id="aub-ty-sM0"/>
+                            <constraint firstItem="Ht6-Pt-pTI" firstAttribute="top" secondItem="hDW-we-5YD" secondAttribute="bottom" constant="30" id="cMe-uh-wG8"/>
+                            <constraint firstItem="Ht6-Pt-pTI" firstAttribute="leading" secondItem="fOg-Xg-7hy" secondAttribute="leading" constant="20" id="jtH-yH-6lC"/>
+                            <constraint firstItem="hDW-we-5YD" firstAttribute="top" secondItem="fOg-Xg-7hy" secondAttribute="top" constant="15" id="mWN-1H-tiq"/>
+                            <constraint firstItem="hDW-we-5YD" firstAttribute="leading" secondItem="fOg-Xg-7hy" secondAttribute="leading" constant="20" id="rZ5-W1-vNr"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="fOg-Xg-7hy"/>
                     </view>
+                    <navigationItem key="navigationItem" id="p3H-aP-AvI">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="GiZ-yM-dCE">
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="5ck-xb-akU" id="lE1-Wm-cqS"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="bYA-9P-xOx">
+                            <connections>
+                                <action selector="saveButtonPressed:" destination="5ck-xb-akU" id="MCT-0x-qYy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="titleText" destination="hDW-we-5YD" id="qex-3X-72v"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t63-UP-9vg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1543" y="-266"/>
+            <point key="canvasLocation" x="2452.1739130434785" y="-266.51785714285711"/>
         </scene>
         <!--Exercise Details Table View Controller-->
         <scene sceneID="pbT-HZ-5yJ">
@@ -89,11 +124,74 @@
                             <outlet property="delegate" destination="Gtj-MO-gI0" id="c4o-jV-oZ7"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="NGP-mk-Fsk"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="NGP-mk-Fsk">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="QNL-5G-Ex2">
+                            <connections>
+                                <action selector="addExerciseEntry:" destination="Gtj-MO-gI0" id="qNY-p1-PJ0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="4eZ-Wc-LQq" kind="show" identifier="Add Exercise Entry" id="hMd-BQ-LYo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OvZ-FH-SYz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1573.913043478261" y="493.52678571428567"/>
+        </scene>
+        <!--Entry View Controller-->
+        <scene sceneID="jKK-07-92k">
+            <objects>
+                <viewController id="4eZ-Wc-LQq" customClass="EntryViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3Jb-1i-qti">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0sO-rr-i1i">
+                                <rect key="frame" x="84" y="199" width="97" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="ioZ-lb-CBt"/>
+                                    <constraint firstAttribute="width" constant="100" id="z7U-jH-GMC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fBu-Fe-Zwa">
+                                <rect key="frame" x="234" y="199" width="97" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="A69-Sb-GnI"/>
+                                    <constraint firstAttribute="height" constant="75" id="HnV-uv-uki"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Reps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQx-C5-ksN">
+                                <rect key="frame" x="111" y="247" width="39" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Weight (lbs)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0t2-4I-SS9">
+                                <rect key="frame" x="238" y="247" width="93" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="0t2-4I-SS9" firstAttribute="top" secondItem="fBu-Fe-Zwa" secondAttribute="bottom" constant="5" id="6f9-NC-Gru"/>
+                            <constraint firstItem="TQx-C5-ksN" firstAttribute="top" secondItem="0sO-rr-i1i" secondAttribute="bottom" constant="5" id="hEu-Ub-y6D"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cie-WU-ExR"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DD1-oW-YKe"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hpE-eL-OEp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2679" y="492"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mZl-aK-qP2">
@@ -112,6 +210,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vrS-s9-oXo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-430" y="198"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="u5v-Tj-Xf2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uII-VO-GhH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jrD-Mf-wQV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5ck-xb-akU" kind="relationship" relationship="rootViewController" id="iKa-Zc-04d"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="736-J0-kKI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1542.0289855072465" y="-266.51785714285711"/>
         </scene>
     </scenes>
 </document>
