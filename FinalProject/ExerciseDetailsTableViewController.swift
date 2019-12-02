@@ -8,10 +8,22 @@
 
 import UIKit
 
-class ExerciseDetailsTableViewController: UITableViewController {
+class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
+    var currentExercise : Exercise!
+    var currentEntries : [ExerciseEntry]!
+    
+    func didAddEntry(_ entry: ExerciseEntry) {
+        dismiss(animated: true, completion: nil)
+        currentEntries.insert(entry, at: 0)
+        self.tableView.reloadData()
+        print("Did dismiss popover")
+        
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        currentEntries = currentExercise.entries
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -20,33 +32,37 @@ class ExerciseDetailsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return currentEntries.count
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60.0
     }
     
     @IBAction func addExerciseEntry(_ sender: UIBarButtonItem) {
         print("add button pressed")
-        //addNewExercise(title: "My New Exercise")
         performSegue(withIdentifier: "Add Exercise Entry", sender: sender)
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "entry", for: indexPath)
 
-        // Configure the cell...
-
+        cell.textLabel?.text = self.currentEntries[indexPath.row].date
+        
+        if let weightLabel = cell.viewWithTag(2) as? UILabel {
+            weightLabel.text = String(currentEntries[indexPath.row].weight)
+        }
+        //cell.textLabel?.text = self.currentExercise.title
+        //cell.detailTextLabel?.text = self.currentEntries[indexPath.row].date
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -73,24 +89,20 @@ class ExerciseDetailsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
 
     }
-    */
 
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
+ */
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "Add Exercise Entry" {
+            print("Add Exercise Entry segue")
+            if let evc = segue.destination as? EntryViewController {
+                    evc.delegate = self
+                }
+            
+        }
     }
-    */
 
 }

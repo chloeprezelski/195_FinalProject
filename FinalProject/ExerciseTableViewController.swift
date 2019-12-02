@@ -19,7 +19,7 @@ struct ExerciseEntry {
 struct Exercise {
     var title : String
     var maxWeight : Double
-    var entries : [ExerciseEntry]
+    var entries : [ExerciseEntry]?
 }
 
 class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
@@ -27,8 +27,10 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     func didCreate(_ exercise: Exercise) {
         dismiss(animated: true, completion: nil)
         exercises.append(exercise)
+        //addNewExerciseToDatabase(exercise: exercise)
         self.tableView.reloadData()
     }
+    
     var exercises = [Exercise]()
     let ref = Database.database().reference()
     
@@ -77,19 +79,19 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
         return 1
     }
     
-//    func addNewExercise(title: String) {
-//        // Create a reference to the new exercise, identified by a random id. We will use this reference to set the value.
-//        let newExerciseRef = ref.child("exercises").childByAutoId()
-//
-//        // Create a dictionary representing the post. Notice we have both strings and ints, so we say "String : Any"
-//        let newExerciseDictionary: [String : Any] = [
-//            "title" : title,
-//            "maxWeight" : 0,
-//            "entries" : [ExerciseEntry]()
-//        ]
-//        // Use the database reference to create a new post
-//        newExerciseRef.setValue(newExerciseDictionary)
-//    }
+    func addNewExerciseToDatabase(exercise: Exercise) {
+        // Create a reference to the new exercise, identified by a random id. We will use this reference to set the value.
+        let newExerciseRef = ref.child("exercises").childByAutoId()
+
+        // Create a dictionary representing the post. Notice we have both strings and ints, so we say "String : Any"
+        let newExerciseDictionary: [String : Any] = [
+            "title" : exercise.title,
+            "maxWeight" : exercise.maxWeight,
+            "entries" : exercise.entries ?? [ExerciseEntry]()
+        ]
+        // Use the database reference to create a new post
+        newExerciseRef.setValue(newExerciseDictionary)
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.exercises.count
@@ -121,6 +123,11 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show Details" {
             print("Show Details")
+            if let edtvc = segue.destination as? ExerciseDetailsTableViewController {
+                if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+                    edtvc.currentExercise = exercises[indexPath.row]
+                }
+            }
             
         }
         
