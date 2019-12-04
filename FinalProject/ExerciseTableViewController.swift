@@ -90,17 +90,13 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     }
     
     func addNewExerciseToDatabase(exercise: Exercise) {
-        // Create a reference to the new exercise, identified by a random id. We will use this reference to set the value.
         let newExerciseRef = ref.child("exercises").childByAutoId()
 
-        // Create a dictionary representing the post. Notice we have both strings and ints, so we say "String : Any"
         let newExerciseDictionary: [String : Any] = [
             "title" : exercise.title,
             "maxWeight" : exercise.maxWeight,
-            "entries" : 0
-            //"entries" : exercise.entries ?? [ExerciseEntry]()
+            "entries" : exercise.entries ?? [ExerciseEntry]()
         ]
-        // Use the database reference to create a new post
         newExerciseRef.setValue(newExerciseDictionary)
     }
 
@@ -126,24 +122,19 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        print("add button pressed")
-        //addNewExercise(title: "My New Exercise")
         performSegue(withIdentifier: "Add Exercise", sender: sender)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show Details" {
-            print("Show Details")
             if let edtvc = segue.destination as? ExerciseDetailsTableViewController {
                 if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
                     edtvc.currentExercise = exercises[indexPath.row]
                 }
             }
-            
         }
         
         if segue.identifier == "Add Exercise" {
-            print("Add Exercise")
             if let nc = segue.destination as? UINavigationController {
                 if let aevc = nc.viewControllers[0] as? AddExerciseViewController {
                     aevc.delegate = self

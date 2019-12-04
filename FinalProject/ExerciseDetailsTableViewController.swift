@@ -19,11 +19,11 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
     func didAddEntry(_ entry: ExerciseEntry) {
         dismiss(animated: true, completion: nil)
         addEntryToDatabase(entry: entry)
-        currentEntries.append(entry)
+        self.currentEntries.append(entry)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let sortedEntries = currentEntries.sorted { dateFormatter.date(from:$0.date)! < dateFormatter.date(from:$1.date)! }
-        currentEntries = sortedEntries
+        self.currentEntries = sortedEntries
         self.tableView.reloadData()
         updateGraph()
     }
@@ -37,6 +37,7 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
         }
         chtChart.rightAxis.enabled = false
         chtChart.chartDescription?.enabled = false
+        chtChart.xAxis.valueFormatter = DateValueFormatter()
     }
     
     func addEntryToDatabase(entry : ExerciseEntry) {
@@ -79,6 +80,7 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "entry", for: indexPath)
 
         cell.textLabel?.text = self.currentEntries[indexPath.row].date
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         
         if let weightLabel = cell.viewWithTag(2) as? UILabel {
             weightLabel.text = String(currentEntries[indexPath.row].weight)
@@ -110,7 +112,6 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
     func updateGraph(){
         var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
 
-
         //here is the for loop
         for entry in currentEntries {
             let yValue = entry.weight
@@ -123,8 +124,8 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
             let value = ChartDataEntry(x: xValue, y: yValue) // here we set the X and Y status in a data chart entry
             lineChartEntry.append(value) // here we add it to the data set
         }
-
-        let line1 = LineChartDataSet(entries: lineChartEntry, label: "Dates") //Here we convert lineChartEntry to a LineChartDataSet
+        
+        let line1 = LineChartDataSet(entries: lineChartEntry) //Here we convert lineChartEntry to a LineChartDataSet
         line1.colors = [NSUIColor.blue] //Sets the colour to blue
 
         let data = LineChartData() //This is the object that will be added to the chart
@@ -132,29 +133,8 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
 
 
         chtChart.data = data //finally - it adds the chart data to the chart and causes an update
-        chtChart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
+         chtChart.chartDescription?.text = "\(currentExercise.title) Progress" // Here we set the description for the graph
+        chtChart.legend.enabled = false
     }
-    
-//    func updateGraph(){
-//        var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
-//        
-//        
-//        //here is the for loop
-//        for i in 0..<numbers.count {
-//
-//            let value = ChartDataEntry(x: Double(i), y: numbers[i]) // here we set the X and Y status in a data chart entry
-//            lineChartEntry.append(value) // here we add it to the data set
-//        }
-//
-//        let line1 = LineChartDataSet(entries: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
-//        line1.colors = [NSUIColor.blue] //Sets the colour to blue
-//
-//        let data = LineChartData() //This is the object that will be added to the chart
-//        data.addDataSet(line1) //Adds the line to the dataSet
-//        
-//
-//        chtChart.data = data //finally - it adds the chart data to the chart and causes an update
-//        chtChart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
-//    }
 
 }

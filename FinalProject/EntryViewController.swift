@@ -21,11 +21,13 @@ class EntryViewController : UIViewController {
     @IBOutlet weak var month: UITextField!
     @IBOutlet weak var day: UITextField!
     @IBOutlet weak var year: UITextField!
+    @IBOutlet weak var errorDetail : UILabel!
     weak var delegate: EntryDelegate?
     let ref = Database.database().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        errorDetail.isHidden = true
         let dateNow = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -45,10 +47,11 @@ class EntryViewController : UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        print("save button pressed")
         let newExerciseEntry = createNewExerciseEntry()
         if newExerciseEntry != nil {
             self.delegate?.didAddEntry(newExerciseEntry!)
+        } else {
+            errorDetail.isHidden = false
         }
     }
     
