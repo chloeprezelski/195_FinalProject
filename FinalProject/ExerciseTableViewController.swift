@@ -20,6 +20,12 @@ struct Exercise {
     var title : String
     var maxWeight : Double
     var entries : [ExerciseEntry]?
+    init(title: String, maxWeight: Double, entries: [ExerciseEntry]) {
+        self.title = title
+        self.maxWeight = maxWeight
+        self.entries = entries        
+    }
+    var id : String?
 }
 
 class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
@@ -27,7 +33,8 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     func didCreate(_ exercise: Exercise) {
         dismiss(animated: true, completion: nil)
         exercises.append(exercise)
-        //addNewExerciseToDatabase(exercise: exercise)
+        let sortedExercises = exercises.sorted( by: {$0.title < $1.title })
+        exercises = sortedExercises
         self.tableView.reloadData()
     }
     
@@ -44,7 +51,7 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
                 var newExercises = [Exercise]()
                 for eachDict in exerciseDicts {
                     let dictValue = eachDict.value
-                    //let dictKey = eachDict.key
+                    let dictKey = eachDict.key
                     var exTitle = ""
                     var exMaxWeight = 0.0
                     
@@ -61,10 +68,14 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
                             if let date = entryValue["date"] as? String, let reps = entryValue["reps"] as? Int, let weight = entryValue["weight"] as? Double {
                                 let myEntry : ExerciseEntry = ExerciseEntry(reps: reps, weight: weight, date: date)
                                 newEntries.append(myEntry)
-                                //newEntries.append(reps: reps, weight: weight, date: date)
                             }
                         }
-                        let myExercise : Exercise = Exercise(title: exTitle, maxWeight: exMaxWeight, entries: newEntries)
+                        var myExercise : Exercise = Exercise(title: exTitle, maxWeight: exMaxWeight, entries: newEntries)
+                        myExercise.id = dictKey
+                        newExercises.append(myExercise)
+                    } else {
+                        var myExercise : Exercise = Exercise(title: exTitle, maxWeight: exMaxWeight, entries: [ExerciseEntry]())
+                        myExercise.id = dictKey
                         newExercises.append(myExercise)
                     }
                 }
@@ -72,7 +83,6 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
                 self.tableView.reloadData()
             }
         }
-        print(exercises.count)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,7 +97,8 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
         let newExerciseDictionary: [String : Any] = [
             "title" : exercise.title,
             "maxWeight" : exercise.maxWeight,
-            "entries" : exercise.entries ?? [ExerciseEntry]()
+            "entries" : 0
+            //"entries" : exercise.entries ?? [ExerciseEntry]()
         ]
         // Use the database reference to create a new post
         newExerciseRef.setValue(newExerciseDictionary)
@@ -101,7 +112,7 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id", for: indexPath)
         cell.textLabel?.text = self.exercises[indexPath.row].title
-
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         return cell
     }
     

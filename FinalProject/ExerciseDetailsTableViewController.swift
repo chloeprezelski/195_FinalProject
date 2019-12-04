@@ -7,38 +7,62 @@
 //
 
 import UIKit
+import Firebase
+import Charts
 
 class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
     var currentExercise : Exercise!
     var currentEntries : [ExerciseEntry]!
+    let ref = Database.database().reference()
+    @IBOutlet weak var chtChart: LineChartView!
     
     func didAddEntry(_ entry: ExerciseEntry) {
         dismiss(animated: true, completion: nil)
-        currentEntries.insert(entry, at: 0)
+        addEntryToDatabase(entry: entry)
+        currentEntries.append(entry)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let sortedEntries = currentEntries.sorted { dateFormatter.date(from:$0.date)! < dateFormatter.date(from:$1.date)! }
+        currentEntries = sortedEntries
         self.tableView.reloadData()
-        print("Did dismiss popover")
-        
+        updateGraph()
     }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         currentEntries = currentExercise.entries
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if currentEntries.count != 0 {
+            updateGraph()
+        }
+        chtChart.rightAxis.enabled = false
+        chtChart.chartDescription?.enabled = false
+    }
+    
+    func addEntryToDatabase(entry : ExerciseEntry) {
+        if currentEntries.count == 0 {
+            let newEntryDictionary: [String : Any] = [
+                "date" : entry.date,
+                "reps" : entry.reps,
+                "weight" : entry.weight
+            ]
+            ref.child("exercises").child(currentExercise.id ?? "").child("entries").childByAutoId().updateChildValues(newEntryDictionary)
+        } else {
+            let newEntryRef = ref.child("exercises").child(currentExercise.id ?? "").child("entries").childByAutoId()
+            let newEntryDictionary: [String : Any] = [
+                "date" : entry.date,
+                "reps" : entry.reps,
+                "weight" : entry.weight
+            ]
+            newEntryRef.setValue(newEntryDictionary)
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return currentEntries.count
     }
     
@@ -59,50 +83,78 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
         if let weightLabel = cell.viewWithTag(2) as? UILabel {
             weightLabel.text = String(currentEntries[indexPath.row].weight)
         }
-        //cell.textLabel?.text = self.currentExercise.title
-        //cell.detailTextLabel?.text = self.currentEntries[indexPath.row].date
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            // need to also delete from database
+            currentEntries.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-
- */
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
-        if segue.identifier == "Add Exercise Entry" {
-            print("Add Exercise Entry segue")
-            if let evc = segue.destination as? EntryViewController {
-                    evc.delegate = self
-                }
-            
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Add Exercise Entry" {
+            print("Add Exercise Entry segue")
+            if let nc = segue.destination as? UINavigationController {
+                if let evc = nc.viewControllers[0] as? EntryViewController {
+                    evc.delegate = self
+                }
+            }
+        }
+    }
+    
+    func updateGraph(){
+        var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
+
+
+        //here is the for loop
+        for entry in currentEntries {
+            let yValue = entry.weight
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+
+            let xValue = dateFormatter.date(from:entry.date)!.timeIntervalSince1970
+
+            let value = ChartDataEntry(x: xValue, y: yValue) // here we set the X and Y status in a data chart entry
+            lineChartEntry.append(value) // here we add it to the data set
+        }
+
+        let line1 = LineChartDataSet(entries: lineChartEntry, label: "Dates") //Here we convert lineChartEntry to a LineChartDataSet
+        line1.colors = [NSUIColor.blue] //Sets the colour to blue
+
+        let data = LineChartData() //This is the object that will be added to the chart
+        data.addDataSet(line1) //Adds the line to the dataSet
+
+
+        chtChart.data = data //finally - it adds the chart data to the chart and causes an update
+        chtChart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
+    }
+    
+//    func updateGraph(){
+//        var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
+//        
+//        
+//        //here is the for loop
+//        for i in 0..<numbers.count {
+//
+//            let value = ChartDataEntry(x: Double(i), y: numbers[i]) // here we set the X and Y status in a data chart entry
+//            lineChartEntry.append(value) // here we add it to the data set
+//        }
+//
+//        let line1 = LineChartDataSet(entries: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
+//        line1.colors = [NSUIColor.blue] //Sets the colour to blue
+//
+//        let data = LineChartData() //This is the object that will be added to the chart
+//        data.addDataSet(line1) //Adds the line to the dataSet
+//        
+//
+//        chtChart.data = data //finally - it adds the chart data to the chart and causes an update
+//        chtChart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
+//    }
 
 }
