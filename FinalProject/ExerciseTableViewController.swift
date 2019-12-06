@@ -33,8 +33,8 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     func didCreate(_ exercise: Exercise) {
         dismiss(animated: true, completion: nil)
         exercises.append(exercise)
-        let sortedExercises = exercises.sorted( by: {$0.title < $1.title })
-        exercises = sortedExercises
+//        let sortedExercises = exercises.sorted( by: {$0.title < $1.title })
+//        exercises = sortedExercises
         self.tableView.reloadData()
     }
     
@@ -123,6 +123,20 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "Add Exercise", sender: sender)
+    }
+    
+    func deleteExerciseFromDatabase(id : String) {
+        ref.child("exercises").child(id).removeValue()
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // need to also delete from database
+            deleteExerciseFromDatabase(id: exercises[indexPath.row].id ?? "")
+            exercises.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -11,6 +11,7 @@
 		FF4C6A65238F4297005FB6B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF4C6A64238F4297005FB6B6 /* GoogleService-Info.plist */; };
 		FF4C6A67238F4923005FB6B6 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4C6A66238F4923005FB6B6 /* EntryViewController.swift */; };
 		FF6FFFEA23983B7C0025E337 /* DateValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6FFFE923983B7B0025E337 /* DateValueFormatter.swift */; };
+		FFA22B672399AFFA0098C67D /* EntryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA22B662399AFF90098C67D /* EntryDetailsViewController.swift */; };
 		FFDAF67523943503003BE629 /* AddExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDAF67423943503003BE629 /* AddExerciseViewController.swift */; };
 		FFDD151C238B8B8C004717D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD151B238B8B8C004717D9 /* AppDelegate.swift */; };
 		FFDD151E238B8B8C004717D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD151D238B8B8C004717D9 /* SceneDelegate.swift */; };
@@ -28,6 +29,7 @@
 		FF4C6A64238F4297005FB6B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FF4C6A66238F4923005FB6B6 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		FF6FFFE923983B7B0025E337 /* DateValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValueFormatter.swift; sourceTree = "<group>"; };
+		FFA22B662399AFF90098C67D /* EntryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailsViewController.swift; sourceTree = "<group>"; };
 		FFDAF67423943503003BE629 /* AddExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewController.swift; sourceTree = "<group>"; };
 		FFDD1518238B8B8C004717D9 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFDD151B238B8B8C004717D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				FFDD151B238B8B8C004717D9 /* AppDelegate.swift */,
 				FFDD151D238B8B8C004717D9 /* SceneDelegate.swift */,
 				FFDD1521238B8B8C004717D9 /* Main.storyboard */,
+				FFA22B662399AFF90098C67D /* EntryDetailsViewController.swift */,
 				FFDAF67423943503003BE629 /* AddExerciseViewController.swift */,
 				FFDD1531238B92DF004717D9 /* ExerciseDetailsTableViewController.swift */,
 				FF6FFFE923983B7B0025E337 /* DateValueFormatter.swift */,
@@ -226,6 +229,7 @@
 				FFDAF67523943503003BE629 /* AddExerciseViewController.swift in Sources */,
 				FFDD1532238B92DF004717D9 /* ExerciseDetailsTableViewController.swift in Sources */,
 				FF4C6A67238F4923005FB6B6 /* EntryViewController.swift in Sources */,
+				FFA22B672399AFFA0098C67D /* EntryDetailsViewController.swift in Sources */,
 				FFDD1530238B8C5E004717D9 /* ExerciseTableViewController.swift in Sources */,
 				FFDD151C238B8B8C004717D9 /* AppDelegate.swift in Sources */,
 				FFDD151E238B8B8C004717D9 /* SceneDelegate.swift in Sources */,

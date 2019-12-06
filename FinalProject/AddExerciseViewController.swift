@@ -27,8 +27,6 @@ class AddExerciseViewController : UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        //let newContact = createNewContact()
-        //let newExercise = createNewExercise()
         let newExercise = addExerciseToDatabase()
         if newExercise != nil {
             self.delegate?.didCreate(newExercise!)

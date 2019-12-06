@@ -15,29 +15,37 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
     var currentEntries : [ExerciseEntry]!
     let ref = Database.database().reference()
     @IBOutlet weak var chtChart: LineChartView!
+    @IBOutlet weak var workoutTitle : UILabel!
     
     func didAddEntry(_ entry: ExerciseEntry) {
         dismiss(animated: true, completion: nil)
         addEntryToDatabase(entry: entry)
         self.currentEntries.append(entry)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let sortedEntries = currentEntries.sorted { dateFormatter.date(from:$0.date)! < dateFormatter.date(from:$1.date)! }
-        self.currentEntries = sortedEntries
+        sortEntries()
         self.tableView.reloadData()
         updateGraph()
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         currentEntries = currentExercise.entries
         if currentEntries.count != 0 {
+            workoutTitle.text = currentExercise.title
+            sortEntries()
             updateGraph()
+        } else {
+            workoutTitle.text = ""
         }
         chtChart.rightAxis.enabled = false
         chtChart.chartDescription?.enabled = false
         chtChart.xAxis.valueFormatter = DateValueFormatter()
+    }
+    
+    func sortEntries() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let sortedEntries = currentEntries.sorted { dateFormatter.date(from:$0.date)! < dateFormatter.date(from:$1.date)! }
+        self.currentEntries = sortedEntries
     }
     
     func addEntryToDatabase(entry : ExerciseEntry) {
@@ -72,7 +80,6 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
     }
     
     @IBAction func addExerciseEntry(_ sender: UIBarButtonItem) {
-        print("add button pressed")
         performSegue(withIdentifier: "Add Exercise Entry", sender: sender)
     }
 
@@ -86,6 +93,11 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
             weightLabel.text = String(currentEntries[indexPath.row].weight)
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        performSegue(withIdentifier: "Entry Details", sender: cell)
     }
 
     
@@ -106,6 +118,16 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
                     evc.delegate = self
                 }
             }
+        } else if segue.identifier == "Entry Details" {
+            if let edvc = segue.destination as? EntryDetailsViewController {
+                if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+                    edvc.dateString = currentEntries[indexPath.row].date
+                    edvc.repsString = currentEntries[indexPath.row].reps
+                    edvc.weightString = currentEntries[indexPath.row].weight
+                    edvc.exerciseString = currentExercise.title
+                    
+                }
+            }
         }
     }
     
@@ -114,6 +136,7 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
 
         //here is the for loop
         for entry in currentEntries {
+            print(entry.weight)
             let yValue = entry.weight
 
             let dateFormatter = DateFormatter()
@@ -133,8 +156,12 @@ class ExerciseDetailsTableViewController: UITableViewController, EntryDelegate {
 
 
         chtChart.data = data //finally - it adds the chart data to the chart and causes an update
-         chtChart.chartDescription?.text = "\(currentExercise.title) Progress" // Here we set the description for the graph
+        chtChart.chartDescription?.text = "\(currentExercise.title) Progress" // Here we set the description for the graph
         chtChart.legend.enabled = false
+        chtChart.xAxis.drawGridLinesEnabled = false
+        
+        //LineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, .easeInShine)
+        chtChart.animate(yAxisDuration: 2.0)
     }
 
 }
